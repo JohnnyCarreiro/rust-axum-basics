@@ -17,10 +17,25 @@ async fn quick_dev() -> Result<()> {
 		"/api/login",
 		json!({
 		"username": "johnny",
-		"password": "1234"
-		}),
+		"password": "1234",
+			}),
 	);
 	req_login.await?.print().await?;
+
+	let req_create_ticket = hc.do_post(
+		"/api/tickets",
+		json!({
+		  "title": "Ticket AAA"
+		}),
+	);
+	req_create_ticket.await?.print().await?;
+
+	hc.do_get("/api/tickets").await?.print().await?;
+
+	hc.do_delete("/api/tickets/1")
+		.await?
+		.print()
+		.await?;
 
 	Ok(())
 }
